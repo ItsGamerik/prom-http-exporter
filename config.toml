@@ -1,0 +1,7 @@
+[server]
+host = "127.0.0.1"
+port = 9092
+accept_invalid_certs = false
+
+[targets]
+hosts = []
