@@ -1,5 +1,5 @@
-use http::StatusCode;
 use log::error;
+use reqwest::StatusCode;
 use tokio::task::JoinHandle;
 
 use crate::config::CONFIG_CELL;
