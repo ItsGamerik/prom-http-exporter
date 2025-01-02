@@ -48,7 +48,7 @@ pub fn read_config<P: AsRef<Path>>(path: P) {
 
     for str in &config.targets.hosts {
         if !str.contains("http") {
-            error!("check the configuration file!");
+            error!("make sure that the target urls contain \"http\" or \"https\"!");
             exit(1);
         }
     }
