@@ -1,4 +1,4 @@
-FROM rust:1.83 AS builder
+FROM rust:1.83.0 AS builder
 
 WORKDIR /usr/prom-http-exporter
 
@@ -10,9 +10,13 @@ FROM debian:stable-slim
 
 WORKDIR /usr/prom-http-exporter
 
-COPY config.toml .
+COPY --from=builder /usr/prom-http-exporter/target/release/prom-http-exporter /exe/prom-http-exporter
 
-COPY --from=builder /usr/prom-http-exporter/target/release/prom-http-exporter /usr/prom-http-exporter
+COPY config.toml /etc/prom-http-exporter/config.toml
 
+RUN chown -R nobody:root /etc/prom-http-exporter /exe
 
-CMD ["/usr/prom-http-exporter/prom-http-exporter"]
+USER nobody
+
+ENTRYPOINT ["/exe/prom-http-exporter"]
+CMD [ "/etc/prom-http-exporter/config.toml" ]

@@ -23,11 +23,19 @@ You should then be able to reach the server at `http://<your-host>:<your-port>`.
 
 ### Docker
 
-TODO
+**pre-built images are available on [ghcr]()**
+
+To build the Docker image, run `docker build .` or `podman build .`.
+
+run the docker image with the command `podman|docker run -v </path/to/config.toml>:/etc/prom-http-exporter/config.toml -p <port>:<port> <image>`
+
+> [!NOTE]  
+> When using SELinux, you might encounter issues when trying to add custom configuration files by mounting them. I have no clue how to fix this,
+> but you can just rebuild the image with your config pre-installed.
 
 ## configuration
 
 Under the `[server]` section, host and port refer to the host and port the server will bind to.
 Setting `accept_invalid_certs` to `true` will allow the server to make connections to other servers with invalid (or self-signed) tls certificates.
 
-The section `targets` contains a list of targets that the exporter should connect to when conducting a health check.
+The section `targets` contains a list of targets that the exporter should connect to when conducting a health check. Lists in toml are formatted as `["element1", "element2"]`
