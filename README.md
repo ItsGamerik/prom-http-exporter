@@ -23,7 +23,7 @@ You should then be able to reach the server at `http://<your-host>:<your-port>`.
 
 ### Docker
 
-**pre-built images are available on [ghcr]()**
+**pre-built images are available on [ghcr](https://github.com/ItsGamerik/prom-http-exporter/pkgs/container/prom-http-exporter)**
 
 To build the Docker image, run `docker build .` or `podman build .`.
 
