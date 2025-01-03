@@ -24,7 +24,7 @@ async fn main() -> io::Result<()> {
     let port = CONFIG_CELL.get().unwrap().server.port;
 
     let listener = TcpListener::bind(format!("{}:{}", host, port)).await?;
-    info!("bound to address {}:{}", host, port);
+    info!("bound to address http://{}:{}", host, port);
 
     for target in &CONFIG_CELL.get().unwrap().targets.hosts {
         info!("monitoring target {}", target);
