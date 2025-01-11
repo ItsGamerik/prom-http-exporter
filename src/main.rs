@@ -12,7 +12,7 @@ mod config;
 mod prom_response;
 mod scrape;
 
-use scrape::send_requests;
+use scrape::{get_results, LocalResponse};
 
 #[tokio::main]
 async fn main() -> io::Result<()> {
@@ -30,13 +30,16 @@ async fn main() -> io::Result<()> {
         info!("monitoring target {}", target);
     }
 
+    let scraper = scrape::init();
+
     loop {
+        let data = get_results(scraper.clone()).await;
         let (socket, _) = listener.accept().await?;
-        handle_conn(socket).await;
+        handle_conn(socket, data).await;
     }
 }
 
-async fn handle_conn(mut stream: TcpStream) {
+async fn handle_conn(mut stream: TcpStream, scraper: Vec<LocalResponse>) {
     info!("got request!");
 
     let buffer = BufReader::new(&mut stream);
@@ -47,7 +50,7 @@ async fn handle_conn(mut stream: TcpStream) {
         .unwrap_or(Some("".to_string()))
         .unwrap_or("".to_string());
 
-    let response_string = create_http_response(send_requests().await);
+    let response_string = create_http_response(scraper);
 
     stream.write_all(response_string.as_bytes()).await.unwrap();
     stream.flush().await.unwrap();

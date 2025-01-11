@@ -15,6 +15,7 @@ pub struct Server {
     pub port: u16,
     // pub log_level: String,
     pub accept_invalid_certs: bool,
+    pub scrape_velocity: u64,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
